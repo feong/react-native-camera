@@ -2,16 +2,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { mapValues } from 'lodash';
-import {
-  findNodeHandle,
-  Platform,
-  NativeModules,
-  ViewPropTypes,
-  requireNativeComponent,
-  View,
-  ActivityIndicator,
+import { 
+  findNodeHandle, 
+  Platform, 
+  NativeModules, 
+  ViewPropTypes, 
+  requireNativeComponent, 
+  View, 
+  ActivityIndicator, 
   Text,
-} from 'react-native';
+ } from 'react-native';
 
 import type { FaceFeature } from './FaceDetector';
 
@@ -70,22 +70,22 @@ const CameraManager: Object = NativeModules.RNCameraManager ||
     AutoFocus: {
       on: 1,
     },
-    FlashMode: {
-      off: 1,
+  FlashMode: {
+    off: 1,
+  },
+  WhiteBalance: {},
+  BarCodeType: {},
+  FaceDetection: {
+    fast: 1,
+    Mode: {},
+    Landmarks: {
+      none: 0,
     },
-    WhiteBalance: {},
-    BarCodeType: {},
-    FaceDetection: {
-      fast: 1,
-      Mode: {},
-      Landmarks: {
-        none: 0,
-      },
-      Classifications: {
-        none: 0,
-      },
+    Classifications: {
+      none: 0,
     },
-  };
+  },
+};
 
 const EventThrottleMs = 500;
 
@@ -134,6 +134,7 @@ export default class Camera extends React.Component<PropsType> {
     pendingAuthorizationView: PropTypes.element,
     captureAudio: PropTypes.bool,
     useCamera2Api: PropTypes.bool,
+    barCodeDetectionArea: PropTypes.object,
   };
 
   static defaultProps: Object = {
@@ -181,6 +182,7 @@ export default class Camera extends React.Component<PropsType> {
     ),
     captureAudio: false,
     useCamera2Api: false,
+    barCodeDetectionArea: {x: 0.0, y: 0.0, width: 1.0, height: 1.0},
   };
 
   _cameraRef: ?Object;

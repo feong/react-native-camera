@@ -163,6 +163,13 @@ RCT_CUSTOM_VIEW_PROPERTY(barCodeTypes, NSArray, RNCamera)
     [view setBarCodeTypes:[RCTConvert NSArray:json]];
 }
 
+RCT_CUSTOM_VIEW_PROPERTY(barCodeDetectionArea, CGRect, RNCamera)
+{
+    [view setBarCodeDetectionArea:[RCTConvert CGRect:json]];
+    // [view setBarCodeDetectionArea:CGRectMake([json[@"x"] floatValue], [json[@"y"] floatValue], [json[@"width"] floatValue], [json[@"height"] floatValue])];
+    [view updateBarCodeDetectionArea];
+}
+
 RCT_REMAP_METHOD(takePicture,
                  options:(NSDictionary *)options
                  reactTag:(nonnull NSNumber *)reactTag

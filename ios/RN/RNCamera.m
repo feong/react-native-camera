@@ -304,6 +304,16 @@ static NSDictionary *defaultFaceDetectorOptions = nil;
     [_faceDetectorManager setClassificationsDetected:requestedClassifications];
 }
 
+- (void)updateBarCodeDetectionArea
+{
+    if (_metadataOutput == nil) {
+        return;
+    }
+
+    RCTLog(@"Detection Area: %@", NSStringFromCGRect(self.barCodeDetectionArea));
+    [_metadataOutput setRectOfInterest:self.barCodeDetectionArea];
+}
+
 - (void)takePicture:(NSDictionary *)options resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject
 {
     AVCaptureConnection *connection = [self.stillImageOutput connectionWithMediaType:AVMediaTypeVideo];
@@ -343,8 +353,8 @@ static NSDictionary *defaultFaceDetectorOptions = nil;
             if ([options[@"base64"] boolValue]) {
                 response[@"base64"] = [takenImageData base64EncodedStringWithOptions:0];
             }
-
             
+
             
             if ([options[@"exif"] boolValue]) {
                 int imageRotation;
@@ -661,6 +671,7 @@ static NSDictionary *defaultFaceDetectorOptions = nil;
     }
     
     [_metadataOutput setMetadataObjectTypes:availableRequestedObjectTypes];
+    [self updateBarCodeDetectionArea];
 }
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects
